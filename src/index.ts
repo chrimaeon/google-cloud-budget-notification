@@ -1,5 +1,6 @@
 import { IncomingWebhook } from '@slack/webhook'
 import { cloudEvent } from '@google-cloud/functions-framework'
+import { RawPubSubBody } from '@google-cloud/functions-framework/build/src/pubsub_middleware'
 
 const webhook = new IncomingWebhook(process.env.SLACK_WEBHOOK)
 
@@ -14,8 +15,10 @@ type BillingMessage = {
   currencyCode: string
 }
 
-cloudEvent<BillingMessage>('google-cloud-billing-notification', async (cloudEvent) => {
-  const budgetNotificationText = JSON.stringify(cloudEvent.data)
+cloudEvent<RawPubSubBody>('google-cloud-budget-notification', async (cloudEvent) => {
+  const budgetInfo: BillingMessage = JSON.parse(Buffer.from(cloudEvent.data!.message.data, 'base64').toString())
+
+  const budgetNotificationText = JSON.stringify(budgetInfo, null, 2)
 
   await webhook.send({
     text: budgetNotificationText,

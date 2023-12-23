@@ -1,12 +1,13 @@
 {
   "name": "google-cloud-budget-notification",
   "version": "1.0.0",
-  "main": "./lib/index.js",
+  "main": "lib/index.js",
   "license": "UNLICENSED",
   "scripts": {
-    "build": "tsc",
+    "gcp-build": "tsc",
     "lint:check": "eslint './src/**/*.ts'",
-    "lint:fix": "eslint --fix './src/**/*.ts'"
+    "lint:fix": "eslint --fix './src/**/*.ts'",
+    "deploy": "gcloud functions deploy  $npm_package_name --gen2 --runtime=nodejs20 --region=europe-west1 --source=. --entry-point=google-cloud-budget-notification --trigger-topic=budget-notification --env-vars-file=.env.yaml"
   },
   "dependencies": {
     "@google-cloud/functions-framework": "^3.0.0",
