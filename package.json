@@ -2,7 +2,7 @@
   "name": "google-cloud-budget-notification",
   "version": "1.0.0",
   "main": "lib/index.js",
-  "license": "UNLICENSED",
+  "license": "Apache-2.0",
   "scripts": {
     "gcp-build": "tsc",
     "lint:check": "eslint './src/**/*.ts'",
